@@ -1,11 +1,11 @@
 <template>
-    <section class="p-5 d-flex justify-content-center align-items-center " :style="{ height: '100vh' }">
-
-            <div class="col-6">
-                <div id="carouselExampleCaptions" class="carousel slide bg-primary h-70">
+    <section class="p-2 p-lg-5 d-flex justify-content-center align-items-center " :style="{ height: '100vh' }" id="announcements">
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div id="carouselExampleCaptions" class="carousel slide bg-primary">
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
-                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                             class="active" aria-current="true" aria-label="Slide 1"></button>
                         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
                             aria-label="Slide 2"></button>
                         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
@@ -46,10 +46,13 @@
                     </button>
                 </div>
             </div>
-            <div class="col-6 p-4">
-                <h1 class="fw-bold text-end">ANNOUNCEMENT</h1>
-                <p class="fs-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <div class="col-12 col-lg-6 text-center text-lg-start">
+                <h1 class="fw-bold">ANNOUNCEMENT</h1>
+                <p class="fs-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua.</p>
             </div>
+        </div>
+
     </section>
 
 </template>

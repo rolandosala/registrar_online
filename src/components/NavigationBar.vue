@@ -1,6 +1,6 @@
 <template>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
-        <div class="container">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary p-lg-3" style="position: sticky; top: 0; z-index: 1;">
+        <div class="container col-sm-12">
             <a class="navbar-brand d-flex justify-content-center align-items-center" href="#">
                 <img src="/logo.png" alt="Logo" width="60" height="60" class="d-inline-block align-text-top">
                 <div class="lh-1 mx-3">
@@ -9,27 +9,28 @@
                     <!-- <span>Office of the Registrar</span> -->
                 </div>
             </a>
-            <div class="float-end" id="">
+            <div class="float-end pt-3 pt-lg-0" id="" >
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                            aria-selected="true">Home</button>
+                        <a href="#herosection " class="nav-link" type="button">Home</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
+                        <a href="#announcements" class="nav-link " type="button">Announcements</a>
+                        <!-- <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
                             data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
-                            aria-selected="false">Announcements</button>
+                            aria-selected="false">Announcements</button> -->
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
+                        <a href="#faq " class="nav-link" type="button">FAQ</a>
+                        <!-- <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
                             data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
-                            aria-selected="false">FAQ</button>
+                            aria-selected="false">FAQ</button> -->
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
+                        <a href="#about" class="nav-link" type="button">About</a>
+                        <!-- <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
                             data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
-                            aria-selected="false">About Us</button>
+                            aria-selected="false">About</button> -->
                     </li>
                 </ul>
             </div>

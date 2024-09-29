@@ -1,7 +1,7 @@
 <template>
-    <section class="p-5">
-        <div class="col-12 p-4">
-            <h1 class="fw-bold">Transactions</h1>
+    <section class="p-1">
+        <div class="col-12 p-4" style="overflow: scroll;">
+            <h1 class="fw-bold" style="position: sticky; left: 0;">Transactions</h1>
             <table class="table">
                 <thead>
                     <tr>

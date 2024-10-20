@@ -39,10 +39,7 @@ import { RouterLink } from 'vue-router';
                                 data-bs-target="#account">Account</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <RouterLink to="/" style="text-decoration: none;">
-                                <button class="btn btn-default" id="">Logout</button>
-                            </RouterLink>
-
+                            <button class="btn btn-default" id="" @click="logOut">Logout</button>
                         </li>
                     </ul>
                 </div>
@@ -50,3 +47,17 @@ import { RouterLink } from 'vue-router';
         </div>
     </nav>
 </template>
+<script>
+import { signOut } from 'firebase/auth';
+import { auth } from '@/firebase/init';
+export default {
+    methods: {
+        logOut() {
+            signOut(auth)
+                .then(() => {
+                    this.$router.push('/');
+                })
+        }
+    }
+}
+</script>

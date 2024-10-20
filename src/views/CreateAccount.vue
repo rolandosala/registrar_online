@@ -22,6 +22,7 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '@/firebase/init';
 
 export default {
+    emits: ['loggedIn'],
     data() {
         return {
             email: '',
@@ -31,18 +32,14 @@ export default {
     },
     methods: {
         createAccount() {
-            /* console.log('Email: ', this.email);
-            console.log('Username: ', this.username);
-            console.log('Password: ', this.password); */
             createUserWithEmailAndPassword(auth, this.email, this.password)
             .then(() => {
-                /* console.log(credential.user); */
                 updateProfile(auth.currentUser, {
                     displayName: this.username
                 })
             })
             .then(() => {
-                console.log(auth.currentUser.displayName);
+                this.$emit('loggedIn');
             })
             .catch((error) => {
                 console.log(error.message);

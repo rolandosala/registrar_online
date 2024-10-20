@@ -9,14 +9,9 @@
                         projects
                         with long-term partnerships.</p>
                     <div class="d-grid gap-2 d-sm-flex">
-                        <RouterLink to="/accountsetup">
-                            <button type="button" class="btn btn-outline-light bsb-btn-2xl rounded-pill ">
-                                <img width="30" height="30" src="https://img.icons8.com/color/50/google-logo.png"
-                                    alt="google-logo" />
-                                Sign in with Google</button>
-                        </RouterLink>
-
-
+                        <button type="button" class="btn btn-outline-light bsb-btn-2xl rounded-pill" @click="googleSignIn">
+                            <img width="30" height="30" src="https://img.icons8.com/color/50/google-logo.png"
+                                alt="google-logo" />Sign in with Google</button>
                     </div>
                 </div>
                 <div class="col-4">
@@ -37,7 +32,8 @@
                                             <div class="col-12">
                                                 <div class="form-floating mb-3">
                                                     <input type="password" class="form-control" name="password"
-                                                        id="password" value="" placeholder="Password" v-model="password" required>
+                                                        id="password" value="" placeholder="Password" v-model="password"
+                                                        required>
                                                     <label for="password" class="form-label">Password</label>
                                                 </div>
                                             </div>
@@ -53,10 +49,10 @@
                                             <div class="col-12">
                                                 <div class="d-grid">
                                                     <!-- <RouterLink to="/accountsetup"> -->
-                                                        <button class="btn btn-primary btn-lg form-control" type="submit">
-                                                            Login</button>
-                                                   <!--  </RouterLink> -->
-                                                    
+                                                    <button class="btn btn-primary btn-lg form-control" type="submit">
+                                                        Login</button>
+                                                    <!--  </RouterLink> -->
+
                                                 </div>
                                             </div>
                                         </div>
@@ -69,12 +65,15 @@
                 </div>
             </div>
         </div>
+        <img src="/building2.jpg" alt="" class="img-background">
     </section>
 
 </template>
-<script >
-import { RouterLink } from 'vue-router';
-export default{
+<script>
+import { auth } from '@/firebase/init';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+const provider = new GoogleAuthProvider()
+export default {
     data() {
         return {
             email: '',
@@ -85,18 +84,46 @@ export default{
         loginAccount() {
             console.log('Email: ', this.email);
             console.log('Password: ', this.password);
+        },
+        googleSignIn() {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const credential = GoogleAuthProvider.credentialFromResult(result);
+                    const token = credential.accessToken;
+                    const user = result.user;
+                    console.log('Credential: ', credential);
+                    console.log('Token: ', token);
+                    console.log('User: ', user);
+                    if (user.emailVerified == true) {
+                        this.$router.push('/accountsetup');
+                    }
+
+                }).catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    const email = error.customData.email;
+                    const credential = GoogleAuthProvider.credentialFromError(error);
+                })
         }
     }
 }
 </script>
-<style>
+<style scoped>
 .linear-bg {
-    background: rgb(8, 54, 126);
-    background: linear-gradient(90deg, rgba(8, 54, 126, 1) 2%, rgba(13, 51, 152, 0.8715861344537815) 17%, rgba(250, 254, 255, 0.20211834733893552) 54%), url('university.webp');
-    height: 85vh;
+    background-image: linear-gradient(90deg, rgba(8, 54, 126, 1) 2%, rgba(13, 51, 152, 0.8715861344537815) 17%, rgba(250, 254, 255, 0.20211834733893552) 54%);
+    height: 100vh;
     width: 100%;
-    position: relative;
     background-repeat: no-repeat;
     background-size: cover;
+    overflow: hidden;
+    position: relative;
+}
+
+.img-background {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
 }
 </style>

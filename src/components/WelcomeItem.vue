@@ -1,4 +1,3 @@
-
 <template>
   <section class="container-fluid ">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="top-wavy-bg">
@@ -12,48 +11,53 @@
       </path>
     </svg>
     <div class="row d-flex justify-content-center align-items-center flex-column flex-lg-row">
-      <div :class="{'d-flex': display}"class="col-12 col-lg-6 p-3 justify-content-center align-items-center flex-column" id="welcome" v-show="display">
+      <div :class="{ 'd-flex': display }"
+        class="col-12 col-lg-6 p-3 justify-content-center align-items-center flex-column" id="welcome" v-show="display">
         <h2 class="fw-bold text-uppercase" style="font-size: 3em;">Welcome!</h2>
         <div style="background-color: black; height: 2px; width: 50%;" class="mb-3"></div>
         <p class="fs-5 lh-1">Before proceeding we need some basic information about you.</p>
         <p class="fs-5 lh-1">Please fill the form accordingly.</p>
         <p class="fs-5 lh-1">Thank you!</p>
         <div class="col-6 d-block d-lg-none">
-          <button class="btn btn-info rounded-pill form-control" id="btn_continue" @click="setupAccount">Continue</button>
+          <button class="btn btn-info rounded-pill form-control" id="btn_continue"
+            @click="setupAccount">Continue</button>
         </div>
       </div>
-      <div :class="{ 'd-none': dNone }" class="col-12 col-lg-6 p-3 mt-5 mt-lg-5 mb-5 d-lg-block d-flex justify-content-center align-items-center" style="height: 100vh;" id="setupForm" v-show="showForm">
+      <div :class="{ 'd-none': dNone }"
+        class="col-12 col-lg-6 p-3 mt-5 mt-lg-5 mb-5 d-lg-block d-flex justify-content-center align-items-center"
+        style="height: 100vh;" id="setupForm" v-show="showForm">
         <div class="card shadow">
           <div class="card-header">
             <p class="fs-4 text-uppercase">Account Setup</p>
           </div>
           <div class="card-body">
             <div class="form-floating mb-3">
-              <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" disabled>
+              <input type="email" v-model="email" class="form-control" id="floatingInput" placeholder="name@example.com"
+                disabled>
               <label for="floatingInput">Email address</label>
             </div>
             <div class="row">
               <div class="col-12 col-lg-4">
                 <div class="form-floating">
-                  <input type="text" class="form-control" id="floatingPassword" placeholder="Password">
+                  <input type="text" class="form-control" id="floatingPassword" placeholder="Password" v-model="firstname">
                   <label for="floatingPassword">Firstname</label>
                 </div>
               </div>
-              <div class="col-12 col-lg-4 mt-2">
+              <div class="col-12 col-lg-4">
                 <div class="form-floating">
-                  <input type="text" class="form-control" id="floatingPassword" placeholder="Password">
+                  <input type="text" class="form-control" id="floatingPassword" placeholder="Password" v-model="middlename">
                   <label for="floatingPassword">Middlename</label>
                 </div>
               </div>
-              <div class="col-12 col-lg-4 mt-2">
+              <div class="col-12 col-lg-4">
                 <div class="form-floating">
-                  <input type="text" class="form-control" id="floatingPassword" placeholder="Password">
+                  <input type="text" class="form-control" id="floatingPassword" placeholder="Password" v-model="lastname">
                   <label for="floatingPassword">Lastname</label>
                 </div>
               </div>
               <div class="col-12 col-lg-6 mt-3">
                 <div class="form-floating">
-                  <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                  <select class="form-select" id="floatingSelect" aria-label="Floating label select example" v-model="course">
                     <option selected>Choose Course</option>
                     <option value="1">Bachelor of Arts</option>
                     <option value="2">BS in Business Administration</option>
@@ -62,38 +66,38 @@
                   <label for="floatingSelect">Course/Program</label>
                 </div>
               </div>
-              <div class="col-12 col-lg-6 mt-2">
+              <div class="col-12 col-lg-6 mt-3">
                 <div class="form-floating">
-                  <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                  <select class="form-select" id="floatingSelect" aria-label="Floating label select example" v-model="major">
                     <option selected>Choose Major</option>
-                    <option value="1">Communications</option>
-                    <option value="2">Human Resource Management</option>
-                    <option value="3">Marketing Management</option>
-                    <option value="3">Computer Programming</option>
+                    <option value="Communications">Communications</option>
+                    <option value="HRM">Human Resource Management</option>
+                    <option value="MM">Marketing Management</option>
+                    <option value="Programming">Computer Programming</option>
                   </select>
                   <label for="floatingSelect">Major</label>
                 </div>
               </div>
               <div class="col-12 col-lg-6 mt-2">
                 <div class="form-floating">
-                  <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                  <select class="form-select" id="floatingSelect" aria-label="Floating label select example" v-model="status">
                     <option selected>Choose</option>
-                    <option value="1">Graduate</option>
-                    <option value="2">Non-Graduate</option>
+                    <option value="Graduated">Graduate</option>
+                    <option value="Nonegraduated">Non-Graduate</option>
                   </select>
                   <label for="floatingSelect">Status</label>
                 </div>
                 <div class="form-floating mt-2">
-                  <input type="text" class="form-control" id="floatingPassword" placeholder="Password">
+                  <input type="text" class="form-control" id="floatingPassword" placeholder="Password" v-model="yeargraduated">
                   <label for="floatingPassword">Year Graduated</label>
                 </div>
               </div>
               <div class="col-12 col-lg-6 mt-2">
                 <div class="form-floating">
-                  <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                  <select class="form-select" id="floatingSelect" aria-label="Floating label select example" v-model="transferred">
                     <option selected>Choose</option>
-                    <option value="1">YES</option>
-                    <option value="2">NO</option>
+                    <option value="Yes">YES</option>
+                    <option value="No">NO</option>
                   </select>
                   <label for="floatingSelect">Have you already transferred?</label>
                 </div>
@@ -103,10 +107,7 @@
           </div>
           <div class="card-footer">
             <div class="col-6 col-lg-3 float-end">
-              <RouterLink to="homepage">
-                <button class="btn btn-primary  form-control">Proceed</button>
-              </RouterLink>
-
+              <button class="btn btn-primary  form-control" @click="createUser">Proceed</button>
             </div>
 
           </div>
@@ -116,20 +117,49 @@
   </section>
 </template>
 <script>
-import { RouterLink } from 'vue-router';
-export default{
-  data(){
+import { auth } from '@/firebase/init';
+import { db } from '@/firebase/init';
+import { collection, addDoc } from 'firebase/firestore';
+export default {
+  data() {
     return {
       display: true,
       showForm: false,
-      dNone: true, 
+      dNone: true,
+      email: auth.currentUser.email,
+      firstname: '',
+      lastname: '',
+      middlename: '',
+      course: '',
+      major: '',
+      status: '',
+      transferred: '',
+      yeargraduated: ''
     }
   },
   methods: {
-    setupAccount(){
+    setupAccount() {
       this.display = false;
       this.showForm = true;
       this.dNone = false;
+    },
+    async createUser() {
+      const colRef = collection(db, 'users');
+      const objData = {
+        firstname: this.firstname,
+        lastname: this.lastname,
+        middlename: this.middlename,
+        couse: this.course,
+        major: this.major,
+        status: this.status,
+        yeargraduated: this.yeargraduated,
+        transferred: this.transferred,
+        email: this.email
+      }
+      const docRef = await addDoc(colRef, objData)
+      .then(() => {
+        this.$router.push('/homepage');
+      });
     }
   }
 }
@@ -146,6 +176,7 @@ export default{
   bottom: 0;
   z-index: -1;
 }
+
 .top-wavy-bg {
   position: fixed;
   width: 100%;

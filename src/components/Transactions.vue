@@ -14,24 +14,45 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">09/21/2024</th>
-                        <td>Transcript of Records</td>
-                        <td>Local Employment</td>
-                        <td><span class="badge text-bg-danger">Pending</span> | <span class="badge text-bg-danger">Unpaid</span></td>
-                        <td>00/00/0000</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">09/23/2024</th>
-                        <td>Certifications</td>
-                        <td>For Promotion</td>
-                        <td><span class="badge text-bg-success">Released </span> | <span class="badge text-bg-success">Paid</span></td>
-                        <td>09/24/2024</td>
-                        <td>Requestee</td>
+                    <tr v-for="request in user_requests[0]">
+                        <td scope="row">{{ request.date_requested }}</td>
+                        <td v-for="req_type in request.request">{{ req_type }}</td>
+                        <td v-for="pur_type in request.request">{{ pur_type }}</td>
+                        <td>
+                            <span class="badge text-bg-danger" v-if="request.status == 1">Pending</span> | <span class="badge text-bg-danger">Unpaid</span>
+                        </td>
+                        <td>{{ request.date_released }}</td>
+                        <td>{{ request.released_to }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </section>
 </template>
+<script>
+import { db } from '@/firebase/init';
+import { collection, query, getDocs } from 'firebase/firestore';
+
+export default {
+    data() {
+        return{
+            user_requests: [],
+            
+        }
+        
+    },
+    created() {
+        this.getRequest()
+    },
+    methods: {
+        
+        async getRequest() {
+            const querySnap = await getDocs(query(collection(db, 'users')));
+            querySnap.forEach((doc) => {
+                this.user_requests.push(doc.data().requestInformation);
+                console.log(this.user_requests[0]);
+            })
+        }
+    }
+}
+</script>

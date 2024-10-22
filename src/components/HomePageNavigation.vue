@@ -46,8 +46,16 @@ import { RouterLink } from 'vue-router';
             </div>
         </div>
     </nav>
+    <RequestModal />
+    <InquiryModal />
+    <Notification />
+    <Accounts />
 </template>
 <script>
+import RequestModal from './RequestModal.vue';
+import InquiryModal from './InquiryModal.vue';
+import Notification from './Notification.vue';
+import Accounts from './Accounts.vue';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/firebase/init';
 export default {

@@ -10,19 +10,12 @@
       <button class="btn btn-primary fs-5 mx-3" data-bs-toggle="modal" data-bs-target="#inquiryModal">Inquiry</button>
     </div>
   </section>
-  <RequestModal />
-  <InquiryModal />
-  <Notification />
-  <Accounts />
+  
 </template>
 <script>
-import RequestModal from './RequestModal.vue';
-import InquiryModal from './InquiryModal.vue';
-import Notification from './Notification.vue';
-import Accounts from './Accounts.vue';
 import { auth } from '@/firebase/init';
 import { db } from '@/firebase/init';
-import { where, getDoc, query, collection, doc } from 'firebase/firestore';
+import { getDoc, doc } from 'firebase/firestore';
 export default {
   data() {
     return {
@@ -37,13 +30,12 @@ export default {
   methods: {
     async getUser() {
       /* const q = query(collection(db, 'users'), where('email', '==', 'lando@gmail.com')) */
-      const docSnap = await getDoc(doc(db, 'users', 'l2QaQPvYzgzIUk7iyCAg'), where('email', '==', 'lando@gmail.com'))
+      const docSnap = await getDoc(doc(db, 'users', auth.currentUser.email))
       /* const docSnap = await getDoc(q); */
       if(docSnap.exists()){
         this.firstname = docSnap.data().firstname;
         this.lastname = docSnap.data().lastname;
       }
-      console.log(docSnap.data())
     }
   }
 }

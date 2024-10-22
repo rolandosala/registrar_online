@@ -119,7 +119,7 @@
 <script>
 import { auth } from '@/firebase/init';
 import { db } from '@/firebase/init';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, doc, setDoc } from 'firebase/firestore';
 export default {
   data() {
     return {
@@ -144,7 +144,7 @@ export default {
       this.dNone = false;
     },
     async createUser() {
-      const colRef = collection(db, 'users');
+      const colRef = doc(db, 'users', this.email);
       const objData = {
         firstname: this.firstname,
         lastname: this.lastname,
@@ -156,7 +156,7 @@ export default {
         transferred: this.transferred,
         email: this.email
       }
-      const docRef = await addDoc(colRef, objData)
+      const docRef = await setDoc(colRef, objData)
       .then(() => {
         this.$router.push('/homepage');
       });

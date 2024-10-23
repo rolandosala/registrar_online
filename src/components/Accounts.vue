@@ -12,60 +12,60 @@
                         <div class="card-body">
                             <div class="form-floating mb-3">
                                 <input type="email" class="form-control" id="floatingInput"
-                                    placeholder="name@example.com" disabled>
+                                    placeholder="name@example.com" v-model="email" disabled>
                                 <label for="floatingInput">Email address</label>
                             </div>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="floatingPassword"
+                                        <input type="text" class="form-control" v-model="firstname" id="floatingPassword"
                                             placeholder="Password">
                                         <label for="floatingPassword">Firstname</label>
                                     </div>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="floatingPassword"
+                                        <input type="text" class="form-control" v-model="middlename" id="floatingPassword"
                                             placeholder="Password">
                                         <label for="floatingPassword">Middlename</label>
                                     </div>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="floatingPassword"
+                                        <input type="text" class="form-control" v-model="lastname" id="floatingPassword"
                                             placeholder="Password">
                                         <label for="floatingPassword">Lastname</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-3">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="floatingPassword"
+                                        <input type="text" class="form-control" v-model="course" id="floatingPassword"
                                             placeholder="Password">
                                         <label for="floatingSelect">Course/Program</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-3">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="floatingPassword"
+                                        <input type="text" class="form-control" v-model="major" id="floatingPassword"
                                             placeholder="Password">
                                         <label for="floatingSelect">Major</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-3">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="floatingPassword"
+                                        <input type="text" class="form-control" v-model="status" id="floatingPassword"
                                             placeholder="Password">
                                         <label for="floatingSelect">Status</label>
                                     </div>
                                     <div class="form-floating mt-3">
-                                        <input type="text" class="form-control" id="floatingPassword"
+                                        <input type="text" class="form-control" v-model="yeargrad" id="floatingPassword"
                                             placeholder="Password">
                                         <label for="floatingPassword">Year Graduated</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-3">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="floatingPassword"
+                                        <input type="text" class="form-control" v-model="transferred" id="floatingPassword"
                                             placeholder="Password">
                                         <label for="floatingSelect">Transferred?</label>
                                     </div>
@@ -83,3 +83,41 @@
         </div>
     </div>
 </template>
+<script>
+import { auth, db } from '@/firebase/init';
+import { getDoc, doc } from 'firebase/firestore';
+
+export default{
+    data() {
+        return {
+            email: auth.currentUser.email,
+            firstname: '',
+            lastname: '',
+            middlename: '',
+            course: '',
+            major: '',
+            status: '',
+            transferred: '',
+            yeargrad: '',
+            user_data: []
+        }
+    },
+    created() {
+        this.getUserData();
+    },
+    methods: {
+        async getUserData() {
+            const docSnap = await getDoc(doc(db, 'users', this.email));
+            this.user_data.push(docSnap.data());
+            this.firstname = this.user_data[0].firstname;
+            this.middlename = this.user_data[0].middlename;
+            this.lastname = this.user_data[0].lastname;
+            this.course = this.user_data[0].course;
+            this.major = this.user_data[0].major;
+            this.status = this.user_data[0].status;
+            this.transferred = this.user_data[0].transferred;
+            this.yeargrad = this.user_data[0].yeargraduated;
+        }
+    }
+}
+</script>

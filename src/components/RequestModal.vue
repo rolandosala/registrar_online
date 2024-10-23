@@ -1,7 +1,7 @@
 <template>
   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <form action="#">
+    <form action="#" ref="requestForm">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -25,14 +25,14 @@
                     </div>
                     <div class="col-12 px-2 collapse" id="transcript_types">
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Undergrad Transcript"
+                        <input class="form-check-input" type="checkbox" value="Undergrad TOR"
                           id="transcript_undergrad" v-model="get_request">
                         <label class="form-check-label" for="transcript_undergrad">
                           Undergraduate/College
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Postgrad Transcript"
+                        <input class="form-check-input" type="checkbox" value="Postgrad TOR"
                           id="transcript_postgrad" v-model="get_request">
                         <label class="form-check-label" for="transcript_postgrad">
                           Post-graduate
@@ -213,7 +213,7 @@
           {{ get_purpose }}
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click="addRequest">Confirm</button>
+            <button type="button" class="btn btn-primary" @click="addRequest" data-bs-dismiss="modal">Confirm</button>
           </div>
         </div>
       </div>
@@ -222,7 +222,7 @@
 </template>
 <script>
 import { auth, db } from '@/firebase/init';
-import { setDoc, doc } from 'firebase/firestore';
+import { setDoc, doc, addDoc, collection } from 'firebase/firestore';
 export default {
   data() {
     return {
@@ -235,28 +235,28 @@ export default {
     }
   },
   methods: {
-    
+
     pushRequest() {
       this.set_request.push(this.get_request);
       this.set_purpose.push(this.get_purpose);
     },
-    
+
     async addRequest() {
       this.pushRequest();
-      
-      await setDoc(doc(db, 'users', auth.currentUser.email), {
-        requestInformation: {
-        id: {
-            date_requested: new Date().toLocaleString(),
-            request: this.set_request[0],
-            purpose: this.set_purpose[0],
-            status: '1',
-            date_released: '',
-            released_to: ''
-          }
-      }
-      }, { merge: true })
+
+      await addDoc(collection(db, 'requests'), {
+
+        requested_by: auth.currentUser.email,
+        date_requested: new Date().toLocaleString(),
+        request: this.set_request[0],
+        purpose: this.set_purpose[0],
+        status: '1',
+        date_released: '',
+        released_to: ''
+
+      })
       console.log('Request added')
+      this.$refs.requestForm.reset();
     }
   }
 }

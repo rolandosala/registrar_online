@@ -149,7 +149,7 @@ export default {
         firstname: this.firstname,
         lastname: this.lastname,
         middlename: this.middlename,
-        couse: this.course,
+        course: this.course,
         major: this.major,
         status: this.status,
         yeargraduated: this.yeargraduated,

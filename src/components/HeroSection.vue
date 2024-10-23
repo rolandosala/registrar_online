@@ -9,7 +9,8 @@
                         projects
                         with long-term partnerships.</p>
                     <div class="d-grid gap-2 d-sm-flex">
-                        <button type="button" class="btn btn-outline-light bsb-btn-2xl rounded-pill" @click="googleSignIn">
+                        <button type="button" class="btn btn-outline-light bsb-btn-2xl rounded-pill"
+                            @click="googleSignIn">
                             <img width="30" height="30" src="https://img.icons8.com/color/50/google-logo.png"
                                 alt="google-logo" />Sign in with Google</button>
                     </div>
@@ -70,8 +71,9 @@
 
 </template>
 <script>
-import { auth } from '@/firebase/init';
+import { auth, db } from '@/firebase/init';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 const provider = new GoogleAuthProvider()
 export default {
     data() {
@@ -94,16 +96,26 @@ export default {
                     console.log('Credential: ', credential);
                     console.log('Token: ', token);
                     console.log('User: ', user);
-                    if (user.emailVerified == true) {
+                    this.checkUser(user.email);
+             /*        if (user.emailVerified == true) {
                         this.$router.push('/accountsetup');
-                    }
+                    } */
 
                 }).catch((error) => {
-                    const errorCode = error.code;
+/*                     const errorCode = error.code;
                     const errorMessage = error.message;
                     const email = error.customData.email;
-                    const credential = GoogleAuthProvider.credentialFromError(error);
+                    const credential = GoogleAuthProvider.credentialFromError(error); */
+                    console.log(error)
                 })
+        },
+        async checkUser(data) {
+            const docSnap = await getDoc(doc(db, 'users', data));
+            if (docSnap.exists()) {
+                this.$router.push('/homepage');
+            } else {
+                this.$router.push('/accountsetup');
+            }
         }
     }
 }

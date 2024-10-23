@@ -2,7 +2,7 @@
 import { RouterLink } from 'vue-router';
 </script>
 <template>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary p-1">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary p-4">
         <div class="container">
             <a class="navbar-brand d-flex justify-content-center align-items-center" href="#">
                 <img src="/logo.png" alt="Logo" width="60" height="60" class="d-inline-block align-text-top">
@@ -21,8 +21,8 @@ import { RouterLink } from 'vue-router';
                 <div class="collapse navbar-collapse float-lg-end" id="navbarTogglerDemo01">
                     <ul class="navbar-nav me-auto mt-5 mt-lg-0 ">
                         <li class="nav-item" role="presentation">
-                            <button class="btn btn-default" id="" data-bs-toggle=""
-                                data-bs-target="#">Transactions</button>
+                            <button class="btn btn-default" id=""
+                                data-bs-target="#transactions">Transactions</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="btn btn-default position-relative" id="" data-bs-toggle="modal"

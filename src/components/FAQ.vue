@@ -14,7 +14,7 @@
                 </div>
                 
             </div>
-            <div class="col-12 col-lg-6 p-2 bg-success faq_container">
+            <div class="col-12 col-lg-6 p-2 faq_container">
                 <div class="accordion accordion-flush shadow" id="accordionFlushExample">
                     <div class="accordion-item" v-for="faqs in faq">
                         <h2 class="accordion-header">

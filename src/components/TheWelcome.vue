@@ -3,8 +3,9 @@
   <section class="p-5 d-flex align-items-center linear-bg" >
     <div class="col-12 col-lg-6 p-4">
       <h1 class="fw-bold text-white text-shadow" >Welcome {{ firstname }} {{ lastname }}</h1>
-      <p class="fs-4 text-white text-shadow">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua.</p>
+      <hr class="text-white">
+      <p class="fs-5 text-white text-shadow">A Quote for you</p>
+      <p class="fs-4 text-white text-shadow">"Successful people are not gifted; they just work hard, then succeed on purpose." —G.K. Nielson</p>
       <button class="btn btn-primary fs-5" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create
         Request</button>
       <button class="btn btn-primary fs-5 mx-3" data-bs-toggle="modal" data-bs-target="#inquiryModal">Inquiry</button>

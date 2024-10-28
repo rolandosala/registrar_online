@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary p-lg-3" style="position: sticky; top: 0; z-index: 1;">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary p-lg-3" style="position: sticky; top: 0; z-index: 10;">
         <div class="container col-sm-12">
             <a class="navbar-brand d-flex justify-content-center align-items-center" href="#">
                 <img src="/logo.png" alt="Logo" width="60" height="60" class="d-inline-block align-text-top">

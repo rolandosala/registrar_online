@@ -11,7 +11,7 @@
           <div class="modal-body">
             <div class="card">
               <div class="card-header">
-                <h5>Request Type</h5>
+                <h5>Document Request Type</h5>
               </div>
               <div class="card-body">
                 <div class="row">
@@ -25,15 +25,15 @@
                     </div>
                     <div class="col-12 px-2 collapse" id="transcript_types">
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Undergrad TOR"
-                          id="transcript_undergrad" v-model="get_request">
+                        <input class="form-check-input" type="checkbox" value="Undergrad TOR" id="transcript_undergrad"
+                          v-model="get_request">
                         <label class="form-check-label" for="transcript_undergrad">
                           Undergraduate/College
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Postgrad TOR"
-                          id="transcript_postgrad" v-model="get_request">
+                        <input class="form-check-input" type="checkbox" value="Postgrad TOR" id="transcript_postgrad"
+                          v-model="get_request">
                         <label class="form-check-label" for="transcript_postgrad">
                           Post-graduate
                         </label>
@@ -129,11 +129,41 @@
                       </div>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="Honorable Dismissal" id="dismissal"
-                        v-model="get_request">
-                      <label class="form-check-label" for="dismissal">
-                        Honorable Dismissal
+                      <input class="form-check-input" type="checkbox" value="" id="form_137" data-bs-toggle="collapse"
+                        data-bs-target="#form_137_container">
+                      <label class="form-check-label" for="form_137">
+                        Form 137
                       </label>
+                    </div>
+                    <div class="col-12 px-2 collapse" id="form_137_container">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="JHS - 137" id="JHS_137"
+                          v-model="get_request">
+                        <label class="form-check-label" for="JHS_137">
+                          JHS - 137
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="SHS - 137" id="SHS_137"
+                          v-model="get_request">
+                        <label class="form-check-label" for="SHS_137">
+                          SHS - 137
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-check" data-bs-toggle="collapse" data-bs-target="#others_request"
+                      aria-expanded="false" aria-controls="">
+                      <input class="form-check-input" type="checkbox" value="" id="others_req">
+                      <label class="form-check-label" for="others_req">
+                        Others
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-12 collapse" id="others_request">
+                    <div class="form-floating mt-3">
+                      <input type="text" class="form-control" id="floatingInput" value="" placeholder=""
+                        v-model="get_request">
+                      <label for="floatingInput">Please Specify</label>
                     </div>
                   </div>
                 </div>
@@ -223,6 +253,7 @@
 <script>
 import { auth, db } from '@/firebase/init';
 import { setDoc, doc, addDoc, collection } from 'firebase/firestore';
+import { merge } from 'jquery';
 export default {
   data() {
     return {
@@ -230,22 +261,41 @@ export default {
       set_request: [],
       get_purpose: [],
       set_purpose: [],
+      /* other_purpose: '',
+      other_request: '', */
       request_type: '',
       id: 1,
     }
   },
   methods: {
-
     pushRequest() {
+      /* this.other_purpose != '' ? this.set_purpose.push(this.other_purpose) : this.set_purpose.push(this.get_purpose);
+      this.other_request != '' ? this.set_request.push(this.other_request) : this.set_purpose.push(this.other_purpose) */
       this.set_request.push(this.get_request);
       this.set_purpose.push(this.get_purpose);
     },
+    async setIdToNotification(id) {
+      await setDoc(doc(db, 'notifications', id), {
+        id: id
+      }, { merge: true })
+    },
+    async sendRequestNotification() {
+      const docRef = await addDoc(collection(db, 'notifications'), {
+        notification_to: auth.currentUser.email,
+        date_notified: new Date().toLocaleString(),
+        content_title: 'Request Notification',
+        content_notif: `Good day! Your request is/are successfully sent`,
+        request: this.set_request[0],
+        purpose: this.set_purpose[0],
+        status: '1'
+      })
+      this.setIdToNotification(docRef.id);
+      console.log(docRef.id);
 
+    },
     async addRequest() {
       this.pushRequest();
-
       await addDoc(collection(db, 'requests'), {
-
         requested_by: auth.currentUser.email,
         date_requested: new Date().toLocaleString(),
         request: this.set_request[0],
@@ -253,10 +303,11 @@ export default {
         status: '1',
         date_released: '',
         released_to: ''
-
       })
-      console.log('Request added')
+      console.log('Request added');
+      this.sendRequestNotification();
       this.$refs.requestForm.reset();
+
     }
   }
 }

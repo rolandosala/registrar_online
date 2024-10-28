@@ -1,5 +1,5 @@
 <template>
-    <section class="p-2 p-lg-5 d-flex justify-content-center align-items-center " :style="{ height: '100vh' }" id="announcements">
+    <section class="py-5 px-2 p-lg-5 d-flex justify-content-center align-items-center " :style="{ height: 'auto' }" id="announcements">
         <div class="row">
             <div class="col-12 col-lg-6">
                 <div id="carouselExampleCaptions" class="carousel slide bg-primary">
@@ -46,10 +46,11 @@
                     </button>
                 </div>
             </div>
-            <div class="col-12 col-lg-6 text-center text-lg-start">
-                <h1 class="fw-bold">ANNOUNCEMENT</h1>
-                <p class="fs-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua.</p>
+            <div class="col-12 col-lg-6 text-start text-lg-start">
+                <h1 class="fw-bold text-start">ANNOUNCEMENT</h1>
+                <p class="fs-5">
+                    
+                </p>
             </div>
         </div>
 

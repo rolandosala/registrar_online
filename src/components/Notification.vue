@@ -9,52 +9,46 @@
                 </div>
                 <div class="modal-body">
                     <div class="accordion accordion-flush" id="accordionFlushExample">
-                        <div class="accordion-item">
+                        <div class="accordion-item" v-for="notif in notifications">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
-                                    aria-controls="flush-collapseOne">
-                                    Accordion Item #1
-                                    <span class="badge text-bg-danger mx-2">New</span>
+                                    :data-bs-target="'#' + notif.id" aria-expanded="false"
+                                    aria-controls="flush-collapseOne" @click="markReadNotification(notif.id)">
+                                    <b>{{ notif.content_title }}</b> 
+                                    <span v-if="notif.status == 1" class="badge text-bg-danger mx-2">New Unread Notification</span>
                                 </button>
                             </h2>
-                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                            <div :id="notif.id" class="accordion-collapse collapse"
                                 data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">Placeholder content for this accordion, which is intended to
-                                    demonstrate the <code>.accordion-flush</code> class. This is the first item's
-                                    accordion body.</div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseTwo" aria-expanded="false"
-                                    aria-controls="flush-collapseTwo">
-                                    Accordion Item #2
-                                </button>
-                            </h2>
-                            <div id="flush-collapseTwo" class="accordion-collapse collapse"
-                                data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">Placeholder content for this accordion, which is intended to
-                                    demonstrate the <code>.accordion-flush</code> class. This is the second item's
-                                    accordion body. Let's imagine this being filled with some actual content.</div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseThree" aria-expanded="false"
-                                    aria-controls="flush-collapseThree">
-                                    Accordion Item #3
-                                </button>
-                            </h2>
-                            <div id="flush-collapseThree" class="accordion-collapse collapse"
-                                data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">Placeholder content for this accordion, which is intended to
-                                    demonstrate the <code>.accordion-flush</code> class. This is the third item's
-                                    accordion body. Nothing more exciting happening here in terms of content, but just
-                                    filling up the space to make it look, at least at first glance, a bit more
-                                    representative of how this would look in a real-world application.</div>
+                                <div class="accordion-body">
+                                    <p>{{ notif.content_notif }}</p>
+                                    <p>Date: {{ notif.date_notified }}</p>
+                                    <p>Requested Document/s:
+                                        <span  v-for="request in notif.request">{{ request }}</span>
+                                    </p>
+                                    <p >Purpose:
+                                        <span v-for="purpose in notif.purpose">{{ purpose }}</span> 
+                                    </p>
+                                    <hr>
+                                    <p><b>Requirement/s</b></p>
+
+                                    <div v-if="notif.request.includes('Diploma Re-issuance')">
+                                        <p>- For Diploma re-issuance</p>
+                                        <ul>
+                                            <li>Secure Affidavit of loss</li>
+                                            <li>Php 100.00 for the payment</li>
+                                            <li>1 Docstamp(You may avail in cashiers office)</li>
+                                        </ul>
+                                    </div>
+                                    <div v-if="notif.request.includes('Undergrad TOR')">
+                                        <p>- For Undergraduate Transcript of Records</p>
+                                        <ul>
+                                            <li>Clearance (This will be checked during transaction)</li>
+                                            <li>Php 50.00 per page for the Transcript Payment </li>
+                                            <li>1 Docstamp(You may avail in cashiers office)</li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -67,3 +61,33 @@
         </div>
     </div>
 </template>
+<script>
+import { db, auth } from '@/firebase/init';
+import { getDocs, query, collection, where, getCountFromServer, updateDoc, doc } from 'firebase/firestore';
+export default{
+    data() {
+        return {
+            notifications: [],
+            
+        }
+    },
+    created() {
+        this.getNotifications();
+    },  
+    methods: {
+        async getNotifications() {
+            const querySnap = await getDocs(query(collection(db, 'notifications'), where('notification_to', '==', auth.currentUser.email)));
+            querySnap.forEach((doc) => {
+                this.notifications.push(doc.data());
+                /* console.log(this.notifications); */
+            }) 
+        },
+        async markReadNotification(id) {
+            await updateDoc(doc(db, 'notifications', id), {
+                status: 0
+            })
+           
+        }
+    }
+}
+</script>

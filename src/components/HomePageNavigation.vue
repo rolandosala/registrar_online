@@ -9,7 +9,7 @@ import { RouterLink } from 'vue-router';
                 <div class="lh-1 mx-3">
                     <span>Southern Leyte State University</span><br />
                     <span class="fs-6">Tomas Oppus Campus</span><br />
-                    <!-- <span class="fs-6">Office of the Registrar</span> -->
+                    <span class="fs-6">Office of the Registrar</span>
                 </div>
             </a>
             <div class="float-end col-12 col-lg-6" id="">
@@ -27,10 +27,8 @@ import { RouterLink } from 'vue-router';
                         <li class="nav-item" role="presentation">
                             <button class="btn btn-default position-relative" id="" data-bs-toggle="modal"
                                 data-bs-target="#notification">Notification
-                                <span
-                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    99+
-                                    <span class="visually-hidden">unread messages</span>
+                                <span v-if="notif_counts > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ notif_counts }}
                                 </span>
                             </button>
                         </li>
@@ -57,14 +55,29 @@ import InquiryModal from './InquiryModal.vue';
 import Notification from './Notification.vue';
 import Accounts from './Accounts.vue';
 import { signOut } from 'firebase/auth';
-import { auth } from '@/firebase/init';
+import { db, auth } from '@/firebase/init';
+import { query, collection, where, getCountFromServer } from 'firebase/firestore';
 export default {
+    data() {
+        return{
+            notif_counts: ''
+        }
+    },
+    created() {
+        this.getCounts();
+    },
     methods: {
         logOut() {
             signOut(auth)
                 .then(() => {
                     this.$router.push('/');
                 })
+        },
+        async getCounts() {
+            const col = collection(db, 'notifications');
+            const qry = query(col, where('notification_to', '==', auth.currentUser.email), where('status', '==', '1'))
+            const snapshot = await getCountFromServer(qry);
+            this.notif_counts = snapshot.data().count;
         }
     }
 }

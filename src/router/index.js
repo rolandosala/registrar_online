@@ -22,6 +22,11 @@ const router = createRouter({
       name: 'accountsetup',
       component: () => import('../views/AccountSetup.vue')
     },
+    {
+      path: '/:catchAll(.*)',
+      name: 'NotFound',
+      component: () => import('@/views/NotFound.vue')
+    }
   ]
 })
 

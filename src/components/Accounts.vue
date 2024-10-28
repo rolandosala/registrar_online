@@ -4,7 +4,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Account</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Account Information</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -19,54 +19,54 @@
                                 <div class="col-12">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" v-model="firstname" id="floatingPassword"
-                                            placeholder="Password">
+                                            readonly>
                                         <label for="floatingPassword">Firstname</label>
                                     </div>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" v-model="middlename" id="floatingPassword"
-                                            placeholder="Password">
+                                            readonly>
                                         <label for="floatingPassword">Middlename</label>
                                     </div>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" v-model="lastname" id="floatingPassword"
-                                            placeholder="Password">
+                                            readonly>
                                         <label for="floatingPassword">Lastname</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-3">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" v-model="course" id="floatingPassword"
-                                            placeholder="Password">
+                                            readonly>
                                         <label for="floatingSelect">Course/Program</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-3">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" v-model="major" id="floatingPassword"
-                                            placeholder="Password">
+                                            readonly>
                                         <label for="floatingSelect">Major</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-3">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" v-model="status" id="floatingPassword"
-                                            placeholder="Password">
+                                            readonly>
                                         <label for="floatingSelect">Status</label>
                                     </div>
                                     <div class="form-floating mt-3">
                                         <input type="text" class="form-control" v-model="yeargrad" id="floatingPassword"
-                                            placeholder="Password">
+                                            readonly>
                                         <label for="floatingPassword">Year Graduated</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-3">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" v-model="transferred" id="floatingPassword"
-                                            placeholder="Password">
+                                            readonly>
                                         <label for="floatingSelect">Transferred?</label>
                                     </div>
                                 </div>

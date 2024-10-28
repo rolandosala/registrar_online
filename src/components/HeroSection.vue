@@ -5,17 +5,15 @@
             <div class="row gy-5 gy-lg-0 align-items-lg-center justify-content-lg-between">
                 <div class="col-12 col-lg-6 text-center text-lg-start">
                     <h4 class="display-6 fw-bold mb-3 text-white">Office of the Registrar</h4>
-                    <p class="fs-4 mb-5 text-white">We work in a customized way by devising and handling entirely online
-                        projects
-                        with long-term partnerships.</p>
+                    <p class="fs-4 mb-5 text-white">Official site of Registrar's office, you may create an account using your google account/s. Make a request and inquire about a process or document/s.</p>
                     <div class="d-grid gap-2 d-sm-flex">
                         <button type="button" class="btn btn-outline-light bsb-btn-2xl rounded-pill"
                             @click="googleSignIn">
                             <img width="30" height="30" src="https://img.icons8.com/color/50/google-logo.png"
-                                alt="google-logo" />Sign in with Google</button>
+                                alt="google-logo" class="mx-2"/>Sign in with Google</button>
                     </div>
                 </div>
-                <div class="col-4">
+                <!-- <div class="col-4">
                     <div class="row justify-content-center">
                         <div class="col-12">
                             <div class="card border border-light-subtle rounded-4">
@@ -49,11 +47,8 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-grid">
-                                                    <!-- <RouterLink to="/accountsetup"> -->
                                                     <button class="btn btn-primary btn-lg form-control" type="submit">
                                                         Login</button>
-                                                    <!--  </RouterLink> -->
-
                                                 </div>
                                             </div>
                                         </div>
@@ -63,7 +58,7 @@
                         </div>
                     </div>
 
-                </div>
+                </div> -->
             </div>
         </div>
         <img src="/building2.jpg" alt="" class="img-background">
@@ -123,7 +118,7 @@ export default {
 <style scoped>
 .linear-bg {
     background-image: linear-gradient(90deg, rgba(8, 54, 126, 1) 2%, rgba(13, 51, 152, 0.8715861344537815) 17%, rgba(250, 254, 255, 0.20211834733893552) 54%);
-    height: 100vh;
+    height: 85vh;
     width: 100%;
     background-repeat: no-repeat;
     background-size: cover;

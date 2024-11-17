@@ -6,7 +6,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="staticBackdropLabel">What would you like to request?</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="reloadPage"></button>
           </div>
           <div class="modal-body">
             <div class="card">
@@ -239,11 +239,14 @@
               </div>
             </div>
           </div>
-          {{ get_request }}
-          {{ get_purpose }}
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click="addRequest" data-bs-dismiss="modal">Confirm</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="">Close</button>
+            <button type="button" class="btn btn-primary" @click="addRequest"
+              v-if="get_request != '' && get_purpose != ''" v-show="confirmbtn">Confirm</button>
+            <button class="btn btn-primary" type="button" disabled v-if="sending">
+              <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+              <span role="status">Sending...</span>
+            </button>
           </div>
         </div>
       </div>
@@ -252,8 +255,8 @@
 </template>
 <script>
 import { auth, db } from '@/firebase/init';
-import { setDoc, doc, addDoc, collection } from 'firebase/firestore';
-import { merge } from 'jquery';
+import { setDoc, doc, addDoc, collection, getDoc } from 'firebase/firestore';
+import Swal from 'sweetalert2';
 export default {
   data() {
     return {
@@ -261,18 +264,31 @@ export default {
       set_request: [],
       get_purpose: [],
       set_purpose: [],
-      /* other_purpose: '',
-      other_request: '', */
+      firstname: '',
+      lastname: '',
       request_type: '',
       id: 1,
+      sending: false,
+      confirmbtn: true
     }
+  },
+  created() {
+    this.getUser();
   },
   methods: {
     pushRequest() {
-      /* this.other_purpose != '' ? this.set_purpose.push(this.other_purpose) : this.set_purpose.push(this.get_purpose);
-      this.other_request != '' ? this.set_request.push(this.other_request) : this.set_purpose.push(this.other_purpose) */
       this.set_request.push(this.get_request);
       this.set_purpose.push(this.get_purpose);
+    },
+    /* reloadPage() {
+      window.location.reload();
+    }, */
+    async getUser() {
+      const docSnap = await getDoc(doc(db, 'users', auth.currentUser.email))
+      if (docSnap.exists()) {
+        this.firstname = docSnap.data().firstname;
+        this.lastname = docSnap.data().lastname;
+      }
     },
     async setIdToNotification(id) {
       await setDoc(doc(db, 'notifications', id), {
@@ -294,20 +310,53 @@ export default {
 
     },
     async addRequest() {
+      this.sending = true;
+      this.confirmbtn = false;
       this.pushRequest();
-      await addDoc(collection(db, 'requests'), {
-        requested_by: auth.currentUser.email,
+      const requestId = await addDoc(collection(db, 'requests'), {
+        email: auth.currentUser.email,
         date_requested: new Date().toLocaleString(),
         request: this.set_request[0],
         purpose: this.set_purpose[0],
-        status: '1',
-        date_released: '',
-        released_to: ''
+        status: '0',
+        name: this.firstname + ' ' + this.lastname,
       })
-      console.log('Request added');
+      await setDoc(doc(db, 'requests', requestId.id), {
+        id: requestId.id
+      }, { merge: true })
       this.sendRequestNotification();
       this.$refs.requestForm.reset();
-
+      this.sending = false;
+      this.get_purpose = [];
+      this.get_request = [];
+      /* Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Transaction Request Created",
+        showConfirmButton: false,
+        timer: 1500,
+        width: 300,
+        height: '150px',
+        customClass: {
+          popup: 'alert-size',
+          title: 'title-size',
+        }
+      }); */
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "success",
+        title: "Transaction request created!"
+      });
     }
   }
 }

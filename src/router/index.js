@@ -23,6 +23,11 @@ const router = createRouter({
       component: () => import('../views/AccountSetup.vue')
     },
     {
+      path: '/readmorefaq',
+      name: 'readmorefaq',
+      component: () => import('../views/ReadMoreFAQ.vue')
+    },
+    {
       path: '/:catchAll(.*)',
       name: 'NotFound',
       component: () => import('@/views/NotFound.vue')

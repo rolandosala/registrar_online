@@ -9,7 +9,9 @@
                     You may create an account and message us or follow our social media account.
                 </p>
                 <div class="d-sm-flex justify-content-around flex-row">
-                    <button class="btn btn-outline-primary rounded-pill fs-5 px-5 text-white">Read More...</button>
+                    <RouterLink to="/readmorefaq">
+                        <button class="btn btn-outline-primary rounded-pill fs-5 px-5 text-white">Read More...</button>
+                    </RouterLink>
                     <button class="btn btn-outline-primary rounded-pill fs-5 px-5 text-white">Follow us on Facebook</button>
                 </div>
                 
@@ -30,7 +32,7 @@
                                 <ul v-for="req in faqs.requirements">
                                     <li>{{ req }}</li>
                                 </ul>
-                                <p><b>Cost</b></p>
+                                <p v-if="faqs.cost != null"><b>Cost</b></p>
                                 <ul v-for="cost in faqs.cost">
                                     <li>{{ cost }}</li>
                                 </ul>
@@ -46,7 +48,8 @@
 </template>
 <script>
 import { db } from '@/firebase/init';
-import { getDocs, query, collection } from 'firebase/firestore';
+import { getDocs, query, collection, limit } from 'firebase/firestore';
+import { RouterLink } from 'vue-router';
 
 export default {
     data() {
@@ -59,7 +62,7 @@ export default {
     },
     methods: {
         async getFAQs() {
-            const querySnap = await getDocs(query(collection(db, 'faq')));
+            const querySnap = await getDocs(query(collection(db, 'faq'), limit(5)));
             querySnap.forEach((doc) => {
                 this.faq.push(doc.data());
                 /* console.log(this.user_requests); */

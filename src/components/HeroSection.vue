@@ -5,12 +5,13 @@
             <div class="row gy-5 gy-lg-0 align-items-lg-center justify-content-lg-between">
                 <div class="col-12 col-lg-6 text-center text-lg-start">
                     <h4 class="display-6 fw-bold mb-3 text-white">Office of the Registrar</h4>
-                    <p class="fs-4 mb-5 text-white">Official site of Registrar's office, you may create an account using your google account/s. Make a request and inquire about a process or document/s.</p>
+                    <p class="fs-4 mb-5 text-white">Official site of Registrar's office, you may create an account using
+                        your google account/s. Make a request and inquire about a process or document/s.</p>
                     <div class="d-grid gap-2 d-sm-flex">
                         <button type="button" class="btn btn-outline-light bsb-btn-2xl rounded-pill"
-                            @click="googleSignIn">
+                            @click="googleSignIn" >
                             <img width="30" height="30" src="https://img.icons8.com/color/50/google-logo.png"
-                                alt="google-logo" class="mx-2"/>Sign in with Google</button>
+                                alt="google-logo" class="mx-2" />Sign in with Google</button>
                     </div>
                 </div>
                 <!-- <div class="col-4">
@@ -74,7 +75,7 @@ export default {
     data() {
         return {
             email: '',
-            password: ''
+            password: '',
         }
     },
     methods: {
@@ -88,19 +89,8 @@ export default {
                     const credential = GoogleAuthProvider.credentialFromResult(result);
                     const token = credential.accessToken;
                     const user = result.user;
-                    console.log('Credential: ', credential);
-                    console.log('Token: ', token);
-                    console.log('User: ', user);
                     this.checkUser(user.email);
-             /*        if (user.emailVerified == true) {
-                        this.$router.push('/accountsetup');
-                    } */
-
                 }).catch((error) => {
-/*                     const errorCode = error.code;
-                    const errorMessage = error.message;
-                    const email = error.customData.email;
-                    const credential = GoogleAuthProvider.credentialFromError(error); */
                     console.log(error)
                 })
         },

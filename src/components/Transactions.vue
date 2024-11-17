@@ -2,12 +2,15 @@
     <section class="p-1" id="transactions">
         <div class="col-12 p-4" style="overflow: scroll;">
             <div class="card">
-                <div class="card-header d-flex flex-direction-row justify-content-between">
-                    <h3 class="fw-bold" style="position: sticky; left: 0;">Transactions</h3>
-                    <!-- <button class="col-1 btn bg-primary rounded-pill" @click="refresh">Refresh</button> -->
+                <div class="card-header d-flex justify-content-between">
+                    <h3 class="fw-bold" style="position: sticky; left: 0;" v-if="!fetching">Transactions</h3>
+                    <div class="d-flex align-items-center col-lg-12" v-if="fetching">
+                        <h3 role="status">Fetching Transaction...</h3>
+                        <div class="spinner-border ms-auto" aria-hidden="true"></div>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <table class="table" ref="table">
+                    <table class="table table-hover" ref="table">
                         <thead>
                             <tr>
                                 <th scope="col">Date Requested</th>
@@ -26,18 +29,23 @@
                                 </td>
                                 <td v-for="pur_type in request.purpose">{{ pur_type }}</td>
                                 <td>
-                                    <span class="badge text-bg-danger" v-if="request.status == 1">Pending</span> | <span
-                                        class="badge text-bg-danger">Unpaid</span>
+                                    <span class="badge text-bg-danger mx-1" v-if="request.status == 0">Pending</span>
+                                    <span class="badge text-bg-danger mx-1" v-if="request.status == 0">Unpaid</span>
+                                    <span class="badge text-bg-warning mx-1"
+                                        v-if="request.status == 1">Processing</span>
+                                    <span class="badge text-bg-secondary mx-1"
+                                        v-if="request.status == 2">Completed</span>
+                                    <span class="badge text-bg-success mx-1" v-if="request.status == 3">Released</span>
+                                    <span class="badge text-bg-success mx-1" v-if="request.status > 0">Paid</span>
+
                                 </td>
-                                <td>{{ request.date_released }}</td>
-                                <td>{{ request.released_to }}</td>
+                                <td>{{ request.date_release }}</td>
+                                <td>{{ request.release_to }}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
-
         </div>
     </section>
 </template>
@@ -49,7 +57,7 @@ export default {
     data() {
         return {
             user_requests: [],
-
+            fetching: false,
         }
 
     },
@@ -58,11 +66,12 @@ export default {
     },
     methods: {
         async getRequest() {
-            const querySnap = await getDocs(query(collection(db, 'requests'), where('requested_by', '==', auth.currentUser.email)));
+            this.fetching = true;
+            const querySnap = await getDocs(query(collection(db, 'requests'), where('email', '==', auth.currentUser.email)));
             querySnap.forEach((doc) => {
                 this.user_requests.push(doc.data());
-                /* console.log(this.user_requests); */
-            })
+            });
+            this.fetching = false;
         },
         refresh() {
             this.$refs.table.innerHTML = '';
@@ -71,3 +80,8 @@ export default {
     }
 }
 </script>
+<style>
+tr:hover{
+    cursor: pointer;
+}
+</style>

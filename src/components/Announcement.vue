@@ -46,14 +46,40 @@
                     </button>
                 </div>
             </div>
-            <div class="col-12 col-lg-6 text-start text-lg-start">
-                <h1 class="fw-bold text-start">ANNOUNCEMENT</h1>
-                <p class="fs-5">
-                    
+            <div class="col-12 col-lg-6 text-start text-lg-start" v-for="data in announcement">
+                <h3 class=" text-start">ANNOUNCEMENT</h3>
+                <p class="fs-4">
+                    {{ data.title }}
+                </p>
+                <p class="fs-6">
+                    {{ data.content }}
                 </p>
             </div>
         </div>
-
     </section>
-
+    
 </template>
+<script>
+import { db } from '@/firebase/init';
+import { getDocs, query, collection } from 'firebase/firestore';
+
+export default {
+    data() {
+        return {
+            announcement: []
+        }
+    },
+    mounted() {
+        this.getAnnouncement();
+    },
+    methods: {
+        async getAnnouncement() {
+            const querySnap = await getDocs(query(collection(db, 'announcement')));
+            querySnap.forEach((doc) => {
+                this.announcement.push(doc.data());
+                console.log(this.announcement);
+            })
+        }
+    }
+}
+</script>

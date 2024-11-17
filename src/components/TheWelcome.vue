@@ -31,9 +31,7 @@ export default {
   },
   methods: {
     async getUser() {
-      /* const q = query(collection(db, 'users'), where('email', '==', 'lando@gmail.com')) */
       const docSnap = await getDoc(doc(db, 'users', auth.currentUser.email))
-      /* const docSnap = await getDoc(q); */
       if(docSnap.exists()){
         this.firstname = docSnap.data().firstname;
         this.lastname = docSnap.data().lastname;

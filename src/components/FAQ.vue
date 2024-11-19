@@ -42,14 +42,12 @@
                 </div>
             </div>
         </div>
-
     </section>
 
 </template>
 <script>
 import { db } from '@/firebase/init';
 import { getDocs, query, collection, limit } from 'firebase/firestore';
-import { RouterLink } from 'vue-router';
 
 export default {
     data() {
@@ -65,7 +63,6 @@ export default {
             const querySnap = await getDocs(query(collection(db, 'faq'), limit(5)));
             querySnap.forEach((doc) => {
                 this.faq.push(doc.data());
-                /* console.log(this.user_requests); */
             })
         }
     }
@@ -73,9 +70,8 @@ export default {
 </script>
 <style scoped>
 .linear-bg {
-    background: rgb(8, 54, 126);
-    background: linear-gradient(90deg, rgba(8, 54, 126, 1) 2%, rgba(13, 51, 152, 0.8715861344537815) 17%, rgba(250, 254, 255, 0.20211834733893552) 54%);
-    height: auto;
+    background-color:  rgb(5, 40, 134);
+    height: 100vh;
     width: 100%;
     position: relative;
     background-repeat: no-repeat;

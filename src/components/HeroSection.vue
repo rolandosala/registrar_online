@@ -9,7 +9,7 @@
                         your google account/s. Make a request and inquire about a process or document/s.</p>
                     <div class="d-grid gap-2 d-sm-flex">
                         <button type="button" class="btn btn-outline-light bsb-btn-2xl rounded-pill"
-                            @click="googleSignIn" >
+                            @click="googleSignIn">
                             <img width="30" height="30" src="https://img.icons8.com/color/50/google-logo.png"
                                 alt="google-logo" class="mx-2" />Sign in with Google</button>
                     </div>
@@ -63,6 +63,13 @@
             </div>
         </div>
         <img src="/building2.jpg" alt="" class="img-background">
+        <div class="loading" v-show="loading">
+            <div class="spinner-border text-white" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <h3 class="text-white">Signing In...</h3>
+        </div>
+
     </section>
 
 </template>
@@ -76,6 +83,7 @@ export default {
         return {
             email: '',
             password: '',
+            loading: false,
         }
     },
     methods: {
@@ -89,6 +97,7 @@ export default {
                     const credential = GoogleAuthProvider.credentialFromResult(result);
                     const token = credential.accessToken;
                     const user = result.user;
+                    this.loading = true;
                     this.checkUser(user.email);
                 }).catch((error) => {
                     console.log(error)
@@ -96,6 +105,7 @@ export default {
         },
         async checkUser(data) {
             const docSnap = await getDoc(doc(db, 'users', data));
+           
             if (docSnap.exists()) {
                 this.$router.push('/homepage');
             } else {
@@ -122,5 +132,18 @@ export default {
     width: 100%;
     height: 100%;
     z-index: -1;
+}
+
+.loading {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(8, 42, 153, 0.521);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 </style>

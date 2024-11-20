@@ -1,0 +1,1 @@
+import{_ as n,c as o,a as t,o as c}from"./index-dy2VVCMq.js";const s={},a={class:"container-fluid d-flex justify-content-center align-items-center flex-column"};function r(d,e){return c(),o("div",a,e[0]||(e[0]=[t("h1",null,"404",-1),t("h4",{class:"text-uppercase"},"Page not Found",-1)]))}const _=n(s,[["render",r],["__scopeId","data-v-38eadc87"]]);export{_ as default};
